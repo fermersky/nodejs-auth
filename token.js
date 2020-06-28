@@ -8,7 +8,7 @@ router.post('/refresh', async (req, res) => {
     const { refreshToken, userId } = req.body;
 
     // verify refresh token to the secret and expiry
-    const jwtVerify = await jwt.verify(refreshToken, 'anotherSecret');
+    const jwtVerify = jwt.verify(refreshToken, 'anotherSecret');
 
     if (jwtVerify) {
       const existentRefreshToken = await Token.findOne({ userId, refreshToken });
@@ -18,8 +18,8 @@ router.post('/refresh', async (req, res) => {
         const user = await User.findById(userId);
 
         // update access token and resfresh token
-        const newToken = await jwt.sign({ userId: user.id }, 'secret', { expiresIn: '2m' });
-        const newRefreshToken = await jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '3m' });
+        const newToken = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '2m' });
+        const newRefreshToken = jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '3m' });
 
         // drop old refresh token and create new
         await Token.findByIdAndDelete(existentRefreshToken.id);

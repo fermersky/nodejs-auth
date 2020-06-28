@@ -23,10 +23,10 @@ router.post('/login', async (req, res) => {
     }
 
     // generate token
-    const token = await jwt.sign({ userId: user.id }, 'secret', { expiresIn: '2m' });
+    const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '2m' });
 
     // generate refresh token and save it in the db
-    const refreshToken = await jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '3m' });
+    const refreshToken = jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '3m' });
     await Token.create({ userId: user.id, refreshToken });
 
     res.json({ token, refreshToken });

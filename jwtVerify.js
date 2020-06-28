@@ -12,7 +12,7 @@ async function jwtVerify(req, res, next) {
       res.status(401).json({ err: 'authorization failed' });
     }
 
-    const tokenVerify = await jwt.verify(token, 'secret');
+    const tokenVerify = jwt.verify(token, 'secret');
     if (!tokenVerify) {
       res.status(401).json({ err: 'authorization failed' });
     }
