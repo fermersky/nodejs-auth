@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const Token = require('./models/Token');
-const User = require('./models/User');
+const Token = require('../models/Token');
+const User = require('../models/User');
 
 router.post('/refresh', async (req, res) => {
   try {

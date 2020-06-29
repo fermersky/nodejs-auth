@@ -2,8 +2,8 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const User = require('./models/User');
-const Token = require('./models/Token');
+const User = require('../models/User');
+const Token = require('../models/Token');
 
 router.post('/login', async (req, res) => {
   try {
@@ -58,6 +58,11 @@ router.post('/register', async (req, res) => {
     console.log(er);
     res.status(500);
   }
+});
+
+router.post('/register', async (req, res) => {
+  // get username and password from request
+  const { username, password } = req.body;
 });
 
 module.exports = router;

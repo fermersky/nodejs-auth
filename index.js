@@ -4,9 +4,9 @@ const { connect } = require('mongoose');
 
 require('dotenv/config');
 
-const auth = require('./auth');
-const privacy = require('./privacy');
-const token = require('./token');
+const auth = require('./routes/auth');
+const privacy = require('./routes/privacy');
+const token = require('./routes/token');
 
 connect(
   process.env.DB_CONNECTION,
@@ -16,7 +16,7 @@ connect(
     useUnifiedTopology: true,
   },
   (err) => {
-    console.log(err || 'connected to ');
+    console.log(err || 'connected to auth-testing-db');
   }
 );
 
