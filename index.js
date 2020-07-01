@@ -1,12 +1,14 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const { connect } = require('mongoose');
+const cors = require('cors');
 
 require('dotenv/config');
 
 const auth = require('./routes/auth');
 const privacy = require('./routes/privacy');
 const token = require('./routes/token');
+const jwtVerify = require('./jwtVerify');
 
 connect(
   process.env.DB_CONNECTION,
@@ -20,6 +22,7 @@ connect(
   }
 );
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/auth', auth);
 app.use('/privacy', privacy);
