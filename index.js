@@ -1,7 +1,10 @@
-const app = require('express')();
+const express = require('express');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const { connect } = require('mongoose');
 const cors = require('cors');
+
+const app = express();
 
 require('dotenv/config');
 
@@ -22,8 +25,9 @@ connect(
   }
 );
 
+app.use(helmet());
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json({ limit: '10kb' }));
 app.use('/auth', auth);
 app.use('/privacy', privacy);
 app.use('/token', token);

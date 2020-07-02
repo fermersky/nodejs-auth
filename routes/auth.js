@@ -2,12 +2,16 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const { loginSchema } = require('../validation-schemas/login-validation-schems');
 const User = require('../models/User');
 const Token = require('../models/Token');
+const { ValidationError } = require('@hapi/joi');
 
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    await loginSchema.validateAsync({ email, password });
+
     const user = await User.findOne({ email: email });
 
     // check credentials
@@ -31,8 +35,11 @@ router.post('/login', async (req, res) => {
 
     res.json({ token, refreshToken });
   } catch (er) {
-    console.log(er);
-    res.status(500);
+    if (er instanceof ValidationError) {
+      res.status(400).json({ err: er.details[0].message });
+    }
+
+    res.status(500).end({ err: 'internal server error' });
   }
 });
 

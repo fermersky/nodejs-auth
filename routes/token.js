@@ -33,7 +33,8 @@ router.post('/refresh', async (req, res) => {
       res.status(500).json({ err: 'refresh token is expired' });
     }
   } catch (err) {
-    res.status(401).json({ err });
+    console.log(err);
+    res.status(500).json({ err: 'internal server error' });
   }
 });
 
