@@ -1,8 +1,8 @@
 const express = require('express');
 const helmet = require('helmet');
-const bodyParser = require('body-parser');
 const { connect } = require('mongoose');
 const cors = require('cors');
+const xss = require('xss-clean');
 
 const app = express();
 
@@ -25,11 +25,11 @@ connect(
   }
 );
 
+app.use(xss());
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 app.use('/auth', auth);
-app.use('/privacy', privacy);
 app.use('/token', token);
 
 const PORT = 80;

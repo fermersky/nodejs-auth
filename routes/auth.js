@@ -27,10 +27,10 @@ router.post('/login', async (req, res) => {
     }
 
     // generate token
-    const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '2m' });
+    const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '3m' });
 
     // generate refresh token and save it in the db
-    const refreshToken = jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '3m' });
+    const refreshToken = jwt.sign({ userId: user.id }, 'anotherSecret', { expiresIn: '4m' });
     await Token.create({ userId: user.id, refreshToken });
 
     res.json({ token, refreshToken });
@@ -67,9 +67,9 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/register', async (req, res) => {
-  // get username and password from request
-  const { username, password } = req.body;
+router.get('/users', async (_, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 module.exports = router;
